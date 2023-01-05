@@ -2,11 +2,10 @@ package part1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -14,55 +13,64 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Ex2_1 {
     public static void main(String[] args) throws IOException {
-//        String[] fileNames = createTextFiles(100, 1000, 100);
+//        String[] fileNames = createTextFiles(1090, 1000, 100);
 //        for (String fileName : fileNames) {
 //            System.out.println(fileName);
-//            cleanUp(fileNames);
 //        }
-//        System.out.println("Number of lines: " + getNumOfLines(fileNames));
-//        System.out.println("Number of lines using threads: " + new part1.Ex2_1().getNumOfLinesThreads(fileNames));
-//        System.out.println("Number of lines using thread pool: " + new part1.Ex2_1().getNumOfLinesThreadPool(fileNames));
-//        new part1.Ex2_1().compareTime();
+//        System.out.println("Total num of lines: "+getNumOfLinesThreadPool(fileNames));
+//        cleanUp(fileNames);
+
+        compareTime();
     }
 
     /**
      * @param n     number of files to generate
-     * @param seed  seed for random number generator
+     * @param seed  seed for random
      * @param bound bound for random number generator
+     * @return fileNames returns a String array contains the created files names
      */
     public static String[] createTextFiles(int n, int seed, int bound) throws IOException {
         String[] fileNames = new String[n];
         Random random = new Random(seed);
-        for (int i = 0; i < n; i++) {
-            fileNames[i] = "file" + i + ".txt";
-            try (PrintWriter writer = new PrintWriter(fileNames[i])) {
-                //write random of rows with at least 10 characters in each row
+        //create n files
+        for (int i = 1; i <= n; i++) {
+            fileNames[i-1] = "file_" + i + ".txt";
+            try (FileWriter writer = new FileWriter(fileNames[i-1])) {
+                //write random number of lines with at least 10 characters in each row
                 for (int j = 0; j < random.nextInt(bound) + 10; j++) {
-                    writer.println(random.nextInt());
+                    writer.write(random.nextInt());
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
-
         }
         return fileNames;
     }
 
     /**
-     * Reads all files and count the number of rows in each file
-     *
-     * @param fileNames array (string type) of file names
-     * @return the number of lines in all files
+     * @param fileNames array of file names
+     * Deletes the files
      */
-    public static int getNumOfLines(String[] fileNames) {
+    public static void cleanUp(String[] fileNames) {
+        for (String fileName : fileNames) {
+            java.io.File file = new java.io.File(fileName);
+            file.delete();
+        }
+    }
+
+    /**
+     * Reads all files and count the number of rows in each file
+     * @param fileNames array (string type) of file names
+     * @return the sum of all files number of lines
+     */
+    public static int getNumOfLines(String[] fileNames){
         int numOfLines = 0;
         for (String fileName : fileNames) {
             try (Scanner scanner = new Scanner(new File(fileName))) {
-                while (scanner.hasNextLine()) {
-                    scanner.nextLine();
-                    numOfLines++;
-                }
+            while (scanner.hasNextLine()) {
+                scanner.nextLine();
+                numOfLines++;
+            }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -71,57 +79,35 @@ public class Ex2_1 {
     }
 
     /**
-     * Counts the number of lines in a file using threads
-     *
+     * Counts the number of lines in all files using threads
      * @param fileNames array (string type) of file names
      * @return the number of lines in all files
      */
-    public int getNumOfLinesThreads(String[] fileNames) {
-        //count the number of lines in the files using threads
-        class thread extends Thread {
-            int numOfLines = 0;
-            String fileName = "";
-
-            public thread(String fileName) {
-                this.fileName = fileName;
-            }
-
-            @Override
-            public void run() {
-                try (Scanner scanner = new Scanner(new File(fileName))) {
-                    while (scanner.hasNextLine()) {
-                        scanner.nextLine();
-                        numOfLines++;
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        thread[] threads = new thread[fileNames.length];//create threads array with the size of the files array
+    public static int getNumOfLinesThreads(String[] fileNames){
+        fileThread[] threads = new fileThread[fileNames.length]; //create threads array in the same size as the number of files
         for (int i = 0; i < fileNames.length; i++) {
-            threads[i] = new thread(fileNames[i]);//create a thread for each file
-            threads[i].start();//start the thread
+            threads[i] = new fileThread(fileNames[i]); //create a thread for each file
+            threads[i].start(); //start thread
         }
-        int count = 0;//count the number of lines
-        for (thread thread : threads) {
+        int totalNumOfLines = 0; //count the number of lines
+        for (fileThread thread : threads) {
             try {
-                thread.join();//wait for the thread to finish
+                thread.join(); //wait for the thread to finish
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            count += thread.numOfLines;//add the number of lines in the file to the total
+            totalNumOfLines += thread.getNumOfLines(); //add the number of lines in the file to the total
         }
-        return count;//return the total count
+        return totalNumOfLines;
     }
 
+
     /**
-     * this method is the same as the previous one but uses ExecutorService instead of threads
-     *
+     * Counts the number of lines in all files using ExecutorService
      * @param fileNames array of file names
      * @return the number of lines in the files
      */
-    public int getNumOfLinesThreadPool(String[] fileNames) {
+    public  static int getNumOfLinesThreadPool(String[] fileNames) {
         //count the number of lines in the files using thread pool
         AtomicInteger count = new AtomicInteger(0);//counter for the number of lines
         //create a thread pool with the size of the files array
@@ -152,54 +138,29 @@ public class Ex2_1 {
     /**
      * Compares the performance of the methods
      */
-    public void compareTime() throws IOException {
-        String[] fileNames = createTextFiles(1000, 1000, 10000);
-        long start = System.currentTimeMillis();
-        System.out.println(getNumOfLinesThreads(fileNames));
-        long end = System.currentTimeMillis();
-        System.out.println("Time using threads: " + (end - start) + "ms");
+    public static void compareTime() throws IOException {
+        String[] fileNames = createTextFiles(10000, 40, 65376);
+        System.out.println("n = 10000, seed = 42, bound = 65376\n");
+        long start, end;
+
+//        System.out.println("Without Threads-");
+//        start = System.currentTimeMillis();
+//        System.out.println("num of lines: "+getNumOfLines(fileNames));
+//        end = System.currentTimeMillis();
+//        System.out.println("Time: " + (end - start) + "ms\n");
+
+        System.out.println("Using Threads-");
         start = System.currentTimeMillis();
-        System.out.println(getNumOfLinesThreadPool(fileNames));
+        System.out.println("num of lines: "+getNumOfLinesThreads(fileNames));
         end = System.currentTimeMillis();
-        System.out.println("Time using thread poll: " + (end - start) + "ms");
+        System.out.println("Time: " + (end - start) + "ms\n");
+
+        System.out.println("Using ThreadPool-");
         start = System.currentTimeMillis();
-        System.out.println(getNumOfLines(fileNames));
+        System.out.println("num of lines: "+getNumOfLinesThreadPool(fileNames));
         end = System.currentTimeMillis();
-        System.out.println("Time without threads: " + (end - start) + "ms");
+        System.out.println("Time: " + (end - start) + "ms\n");
 
-    }
-
-    /**
-     * @param fileNames array of file names
-     *                  This method is used to delete the files
-     */
-    public static void cleanUp(String[] fileNames) {
-        for (String fileName : fileNames) {
-            java.io.File file = new java.io.File(fileName);
-            file.delete();
-        }
-    }
-
-
-    public static class Call implements Callable<Integer> {
-        String fileName;
-
-        public Call(String fileName) {
-            this.fileName = fileName;
-        }
-
-        @Override
-        public Integer call() throws Exception {
-            int numOfLines = 0;
-            try (Scanner scanner = new Scanner(new File(fileName))) {
-                while (scanner.hasNextLine()) {
-                    scanner.nextLine();
-                    numOfLines++;
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            return numOfLines;
-        }
+        cleanUp(fileNames);
     }
 }
