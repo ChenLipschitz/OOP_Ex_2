@@ -1,4 +1,4 @@
-package part1.Tests;
+package part1;
 
 import org.junit.jupiter.api.*;
 import part1.Ex_2;
