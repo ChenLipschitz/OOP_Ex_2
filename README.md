@@ -33,3 +33,5 @@ all the threads a
 ## UML
 
 ## RESULTS
+<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/threadPoolWins-1000.png alt="1000files">
+<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000%20filse.png alt="10000files">
