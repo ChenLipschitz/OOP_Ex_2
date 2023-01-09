@@ -17,7 +17,8 @@ The method loops all lines in a for loop, and if there is a next line (using Sca
 
 * getNumOfLinesThreads- Returns the number of lines in all files, by using Threads 
 
-The method 
+In this method we use multithreading. For each file we allocate a thread, which means that the number of lines is calculated for each file in a seperate thread.
+Then, loop all files, if the thread has finished add the result to the total. Return total.
 
 * getNumOfLinesThreadPool- Returns the number of lines in all files, by using ExecutorService
 
