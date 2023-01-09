@@ -27,7 +27,7 @@ all the threads a
 * run- 
 * call- 
 * cleanUp- Deletes all files
-* compareTime- Clculates and prints the running time and the number of lines of each way
+* compareTime- Calculates and prints the running time and the number of lines of each way
 
 
 ## UML
@@ -35,3 +35,10 @@ all the threads a
 ## RESULTS
 <img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/threadPoolWins-1000.png alt="1000files">
 <img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000%20filse.png alt="10000files">
+
+According to the results above, all the methods calculated the same number of lines in total, the main difference between them is the running time.
+The threadPool method is usually ,more efficient since thread pool reuses previously created threads to execute current tasks.  It offers a solution to the problem of thread cycle overhead and resource thrashing. Since the thread is already existing when the request arrives, the delay introduced by thread creation is eliminated, making the application more responsive (for more info click <a href=https://www.geeksforgeeks.org/thread-pools-java/> here </a>).
+
+
+## Bibliography
+* <a href=https://www.geeksforgeeks.org/thread-pools-java/> geeksforgeeks </a>
