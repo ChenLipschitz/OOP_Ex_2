@@ -54,7 +54,7 @@ public class Task<T> extends FutureTask <T>implements Callable<T>, Comparable<Ta
     }
 
     /**
-     * @param other an Task object
+     * @param other a Task object
      * @return 0, if the priorities are equal
      *         1, if this object has a greater priority
      *        -1, if the given object has a greater priority
@@ -73,7 +73,7 @@ public class Task<T> extends FutureTask <T>implements Callable<T>, Comparable<Ta
 
     /**
      * Runs the Callable- call method
-     * @return call method's result
+     * @return call method
      * @throws Exception if exists
      */
     @Override
@@ -81,13 +81,13 @@ public class Task<T> extends FutureTask <T>implements Callable<T>, Comparable<Ta
         return task.call();
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(type);
-//    }
 
     @Override
     public String toString() {
         return "Task{" + "callable= " + task +", type= " + type +"}";
+    }
+
+    public <T> Callable<T> getCall() {
+        return (Callable<T>) task;
     }
 }
