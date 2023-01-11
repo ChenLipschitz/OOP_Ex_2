@@ -1,6 +1,6 @@
 # OOP_Ex_2
 
-## Part 1:
+## Part 1
 
 In the following assigment we were told to create a random number of text files and return their total number of lines.
 
