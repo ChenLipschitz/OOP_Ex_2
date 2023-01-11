@@ -34,11 +34,11 @@ all the threads a
 
 1000 files:
 
-<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/threadPoolWins-1000.png alt="1000files">
+<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/1000%20files.png alt="1000files">
 
 10000 files:
 
-<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000%20filse.png alt="10000files">
+<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000%20files.png alt="10000files">
 
 According to the results above, all the methods calculated the same number of lines in total. The main difference between them is the running time.
 The threadPool method is usually, more efficient since thread pool reuses previously created threads to execute current tasks.  It offers a solution to the problem of thread cycle overhead and resource thrashing. Since the thread is already existing when the request arrives, the delay introduced by thread creation is eliminated, making the application more responsive (for more info click <a href=https://www.geeksforgeeks.org/thread-pools-java/> here </a>).
