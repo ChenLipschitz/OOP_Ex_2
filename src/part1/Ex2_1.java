@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Ex_2 {
+public class Ex2_1 {
     public static void main(String[] args) throws IOException {
 
 //        String[] fileNames = createTextFiles(10, 1000, 100);
@@ -19,7 +19,7 @@ public class Ex_2 {
 //        System.out.println("Total num of lines: "+getNumOfLinesThreadPool(fileNames));
 //        cleanUp(fileNames);
 
-        Ex_2.compareTime();
+        Ex2_1.compareTime();
     }
 
     /**
@@ -82,7 +82,7 @@ public class Ex_2 {
      * @param fileNames array (string type) of file names
      * @return the number of lines in all files
      */
-    public static int getNumOfLinesThreads(String[] fileNames){
+    public int getNumOfLinesThreads(String[] fileNames){
         fileThread[] threads = new fileThread[fileNames.length]; //create threads array in the same size as the number of files
         for (int i = 0; i < fileNames.length; i++) {
             threads[i] = new fileThread(fileNames[i]); //create a thread for each file
@@ -106,11 +106,11 @@ public class Ex_2 {
      * @param fileNames array of file names
      * @return the number of lines in the files
      */
-    public  static int getNumOfLinesThreadPool(String[] fileNames) {
+    public int getNumOfLinesThreadPool(String[] fileNames) {
         //count the number of lines in the files using thread pool
         AtomicInteger count = new AtomicInteger(0);//counter for the number of lines
         //create a thread pool with the size of the files array
-        ExecutorService executorService = Executors.newFixedThreadPool(10);//It is very inefficient, it is better to make a much smaller number of threads
+        ExecutorService executorService = Executors.newFixedThreadPool(10); //It's inefficient, it is better to make a much smaller number of threads
         for (String fileName : fileNames) {
             executorService.execute(() -> {
                 try (Scanner scanner = new Scanner(new File(fileName))) {
@@ -132,14 +132,16 @@ public class Ex_2 {
             e.printStackTrace();
         }
         return count.get();
-    }
+        }
+
 
     /**
      * Compares the performance of the methods
      */
     public static void compareTime() throws IOException {
-        String[] fileNames = createTextFiles(10000, 40, 65376);
-        System.out.println("n = 10000, seed = 42, bound = 65376\n");
+        Ex2_1 ex2_1 = new Ex2_1();
+        String[] fileNames = createTextFiles(100, 40, 65376);
+        System.out.println("n = 100, seed = 42, bound = 65376\n");
         long start, end;
 
         System.out.println("Without Threads-");
@@ -150,13 +152,13 @@ public class Ex_2 {
 
         System.out.println("Using Threads-");
         start = System.currentTimeMillis();
-        System.out.println("num of lines: "+getNumOfLinesThreads(fileNames));
+        System.out.println("num of lines: "+ex2_1.getNumOfLinesThreads(fileNames));
         end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + "ms\n");
 
         System.out.println("Using ThreadPool-");
         start = System.currentTimeMillis();
-        System.out.println("num of lines: "+getNumOfLinesThreadPool(fileNames));
+        System.out.println("num of lines: "+ex2_1.getNumOfLinesThreadPool(fileNames));
         end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + "ms\n");
 
