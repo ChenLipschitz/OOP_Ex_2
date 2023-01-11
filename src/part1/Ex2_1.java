@@ -1,5 +1,3 @@
-package part1;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,19 +6,20 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Ex2_1 {
+public class Ex_2 {
     public static void main(String[] args) throws IOException {
-//        String[] fileNames = createTextFiles(1090, 1000, 100);
+
+//        String[] fileNames = createTextFiles(10, 1000, 100);
 //        for (String fileName : fileNames) {
 //            System.out.println(fileName);
 //        }
 //        System.out.println("Total num of lines: "+getNumOfLinesThreadPool(fileNames));
 //        cleanUp(fileNames);
 
-        compareTime();
+        Ex_2.compareTime();
     }
 
     /**
@@ -92,7 +91,7 @@ public class Ex2_1 {
         int totalNumOfLines = 0; //count the number of lines
         for (fileThread thread : threads) {
             try {
-                thread.join(); //wait for the thread to finish
+                thread.join(); //wait until the thread finish
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -111,7 +110,7 @@ public class Ex2_1 {
         //count the number of lines in the files using thread pool
         AtomicInteger count = new AtomicInteger(0);//counter for the number of lines
         //create a thread pool with the size of the files array
-        ExecutorService executorService = Executors.newFixedThreadPool(fileNames.length);//It is very inefficient, it is better to make a much smaller number of threads
+        ExecutorService executorService = Executors.newFixedThreadPool(10);//It is very inefficient, it is better to make a much smaller number of threads
         for (String fileName : fileNames) {
             executorService.execute(() -> {
                 try (Scanner scanner = new Scanner(new File(fileName))) {
@@ -143,11 +142,11 @@ public class Ex2_1 {
         System.out.println("n = 10000, seed = 42, bound = 65376\n");
         long start, end;
 
-//        System.out.println("Without Threads-");
-//        start = System.currentTimeMillis();
-//        System.out.println("num of lines: "+getNumOfLines(fileNames));
-//        end = System.currentTimeMillis();
-//        System.out.println("Time: " + (end - start) + "ms\n");
+        System.out.println("Without Threads-");
+        start = System.currentTimeMillis();
+        System.out.println("num of lines: "+getNumOfLines(fileNames));
+        end = System.currentTimeMillis();
+        System.out.println("Time: " + (end - start) + "ms\n");
 
         System.out.println("Using Threads-");
         start = System.currentTimeMillis();
