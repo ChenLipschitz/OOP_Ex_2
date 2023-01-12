@@ -28,7 +28,7 @@ all the threads a
 ## RESULTS
 100 files:
 
-<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/100%20files.png alt="100files">
+<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/100Files.png alt="100files">
 
 1000 files:
 
