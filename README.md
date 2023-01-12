@@ -26,17 +26,9 @@ all the threads a
 
 
 ## RESULTS
-100 files:
+Note: n represents the number of files
 
-<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/100Files.png alt="100files">
-
-1000 files:
-
-<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/1000Files.png alt="1000files">
-
-10000 files:
-
-<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000Files.png alt="10000files">
+<img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/100Files.png alt="100files"> <img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/1000Files.png alt="1000files"> <img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000Files.png alt="10000files">
 
 According to the results above, all the methods calculated the same number of lines in total. The main difference between the methods is the running time.
 When we create a large number of files the threadPool method is usually, more efficient since thread pool reuses previously created threads to execute current tasks.  It offers a solution to the problem of thread cycle overhead and resource thrashing. Since the thread is already existing when the request arrives, the delay introduced by thread creation is eliminated, making the application more responsive (for more info click <a href=https://www.geeksforgeeks.org/thread-pools-java/> here </a>).
@@ -56,7 +48,8 @@ In the case of a small number of files, i.e 1, the ultimate way to calculate the
 
 
 ## Part 2
-The goal- create new two types that extend the functionality of Javas Concurrency Framework of priority in threads.
+The goal- extend the functionality of Javas Concurrency Framework of priority in threads.
+Meaning- At the momment it's impossible to prioritize tasks in ThreadPool. Therefore we implemented a new type- ThreadPool with the ability to execute tasks acorrding to a given priority.
 
 <b>The classes:</b>
 
@@ -77,10 +70,13 @@ The compareTo is for determining which task will be executed first in the priori
 
 ## MyFutureTask
 
+Represents a FutureTask object with the ability to compare between two objects.
 This class is an adapter class between FutureTask to CustomExecutor class.
-The PriorityBlockingQueue gets only Callable objects, unfor. Inorder to execute the tasks according to their priority a comparable method is must be added. Therefoe, we created an adapter class. The class has the same functionality as the FutureTask but with an upgrade- the CompareTo method.  
-Represents a FutureTask object with the ability to compare between two objects
+The PriorityBlockingQueue gets only Callable objects (Note that callable does not has the comparTo method). Inorder to execute the tasks according to their priority a comparable method is must be added. Therefoe, we created an adapter class. MyFutureTask has the same functionalities as FutureTask but with an upgrade- the CompareTo method.
 
+## CustomExecutor
+
+The CustomExecutor class is an implementation of a ThreadPool with the ability to execute tasks according to their priority by using a BlockingPriorityQueue.
 
 ## Bibliography
 * <a href=https://www.geeksforgeeks.org/thread-pools-java/> geeksforgeeks </a>
