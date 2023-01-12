@@ -25,9 +25,7 @@ The method creates an array of fileThread object, the size of the array is as th
 all the threads a 
 
 
-### UML
-
-### RESULTS
+## RESULTS
 100 files:
 
 <img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/100%20files.png alt="100files">
@@ -40,12 +38,33 @@ all the threads a
 
 <img src=https://github.com/ChenLipschitz/OOP_Ex_2/blob/master/Images/10000%20files.png alt="10000files">
 
-According to the results above, all the methods calculated the same number of lines in total. The main difference between them is the running time.
-The threadPool method is usually, more efficient since thread pool reuses previously created threads to execute current tasks.  It offers a solution to the problem of thread cycle overhead and resource thrashing. Since the thread is already existing when the request arrives, the delay introduced by thread creation is eliminated, making the application more responsive (for more info click <a href=https://www.geeksforgeeks.org/thread-pools-java/> here </a>).
+According to the results above, all the methods calculated the same number of lines in total. The main difference between the methods is the running time.
+When we create a large number of files the threadPool method is usually, more efficient since thread pool reuses previously created threads to execute current tasks.  It offers a solution to the problem of thread cycle overhead and resource thrashing. Since the thread is already existing when the request arrives, the delay introduced by thread creation is eliminated, making the application more responsive (for more info click <a href=https://www.geeksforgeeks.org/thread-pools-java/> here </a>).
+After threadPool, multi threading will be the fastest.
+
+Multi threading allows concurrent execution of two or more parts of a program for maximum utilization of CPU. Each part of such program is called a thread. So, threads are light-weight processes within a process. (for more info click <a href=https://www.geeksforgeeks.org/multithreading-in-java/> here </a>).
+
+Why threadPool is better and faster in our case?
+
+In threadPool we create a certain amount of threads. When a thread is done we reuse it for another task. For example, we can use only 4 threads in order to manage 100 tasks. As opposed to multi threading.
+
+In multi threading for each task a new thread is created. For example, for 100 tasks we must create 100 threads. (Note that the creation of a thread is an expensive process).
+
+Therefore thread pool is much cheaper and takes less runnig time than multi threading.
+
+In the case of a small number of files, i.e 1, the ultimate way to calculate the number of lines will be without threads because it's much cheaper and the running time is legit.
 
 
 ## Part 2
-The goal- create new types that extend the functionality of Javas Concurrency Framework of priority in threads
+The goal- create new two types that extend the functionality of Javas Concurrency Framework of priority in threads.
+
+<b>The classes:</b>
+
+* Task
+* TaskType
+* MyFutureTask
+* CustomExecutor
 
 ## Bibliography
 * <a href=https://www.geeksforgeeks.org/thread-pools-java/> geeksforgeeks </a>
+* <a href=https://coderstea.in/post/java/using-thread-pool-in-java-to-recycle-the-threads/> CodersTea </a>
