@@ -60,10 +60,27 @@ The goal- create new two types that extend the functionality of Javas Concurrenc
 
 <b>The classes:</b>
 
-* Task
 * TaskType
+* Task
 * MyFutureTask
 * CustomExecutor
+
+## TaskType
+
+An enum class. Represents the tasks priority according to its type.
+
+## Task
+
+Represents the task object. The class extends the FutureTask class and implements the Callable and Comparable classes.
+The Callable class allows Task to run asynchronously with a return value, where a the Comparable class allows to compare betwwen to Task objects.
+The compareTo is for determining which task will be executed first in the priority queue.
+
+## MyFutureTask
+
+This class is an adapter class between FutureTask to CustomExecutor class.
+The PriorityBlockingQueue gets only Callable objects, unfor. Inorder to execute the tasks according to their priority a comparable method is must be added. Therefoe, we created an adapter class. The class has the same functionality as the FutureTask but with an upgrade- the CompareTo method.  
+Represents a FutureTask object with the ability to compare between two objects
+
 
 ## Bibliography
 * <a href=https://www.geeksforgeeks.org/thread-pools-java/> geeksforgeeks </a>
