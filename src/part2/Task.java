@@ -15,7 +15,7 @@ public class Task<T> extends FutureTask <T>implements Callable<T>, Comparable<Ta
 
     /**
      * Creates a new Task object which has a specified TaskType
-     * Using Factory design pattern
+     * Using Factory method design pattern
      * @param task Callable object
      * @param type a TaskType object
      * @param <T> generic type
