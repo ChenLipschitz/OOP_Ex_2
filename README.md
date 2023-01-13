@@ -81,6 +81,7 @@ The CustomExecutor class is an implementation of a ThreadPool with the ability t
 ## Design Patterns
 
 In both parts we implemented the S.O.L.I.D principles.
+
 In the second part we also took into a considuration the Adapter design Pattern and the Factory method design Pattern.
 
 ## Bibliography
