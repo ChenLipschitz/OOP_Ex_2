@@ -138,31 +138,40 @@ public class Ex2_1 {
 
 
     /**
-     * Compares the performance of the methods
+     * Compares the methods time performance and if the 3 methods return the same number of lines
      */
     public static void compareTime() throws IOException {
         Ex2_1 ex2_1 = new Ex2_1();
-        String[] fileNames = createTextFiles(100, 40, 65376);
-        System.out.println("n = 100, seed = 42, bound = 65376\n");
+        String[] fileNames = createTextFiles(1, 40, 65376);
+        System.out.println("n = 1, seed = 42, bound = 65376\n");
         long start, end;
 
         System.out.println("Without Threads-");
         start = System.currentTimeMillis();
-        System.out.println("num of lines: "+getNumOfLines(fileNames));
+        int linesNum = getNumOfLines(fileNames);
+        System.out.println("num of lines: "+linesNum);
         end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + "ms\n");
 
         System.out.println("Using Threads-");
         start = System.currentTimeMillis();
-        System.out.println("num of lines: "+ex2_1.getNumOfLinesThreads(fileNames));
+        int threadLinesNum = ex2_1.getNumOfLinesThreads(fileNames);
+        System.out.println("num of lines: "+threadLinesNum);
         end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + "ms\n");
 
         System.out.println("Using ThreadPool-");
         start = System.currentTimeMillis();
-        System.out.println("num of lines: "+ex2_1.getNumOfLinesThreadPool(fileNames));
+        int threadPoolLinesNum = ex2_1.getNumOfLinesThreadPool(fileNames);
+        System.out.println("num of lines: "+threadPoolLinesNum);
         end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + "ms\n");
+
+        if (linesNum == threadLinesNum)
+            if (threadLinesNum == threadPoolLinesNum)
+                System.out.println("Well done!");
+            else
+                System.out.println("Oops, it looks like we have a problem");;
 
         cleanUp(fileNames);
     }
