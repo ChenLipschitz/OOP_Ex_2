@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
 */
 
 public class Tests_part2{
-    public static final Logger logger = LoggerFactory.getLogger(Tests.class);
+    public static final Logger logger = LoggerFactory.getLogger(Test.class);
     /**
      * check if the queue add by priority,
      * set core and max to be 1, because we need
