@@ -78,6 +78,11 @@ The PriorityBlockingQueue gets only Callable objects (Note that callable does no
 
 The CustomExecutor class is an implementation of a ThreadPool with the ability to execute tasks according to their priority by using a BlockingPriorityQueue.
 
+## Design Patterns
+
+In both parts we implemented the S.O.L.I.D principles.
+In the second part we also took into a considuration the Adapter design Pattern and the Factory method design Pattern.
+
 ## Bibliography
 * <a href=https://www.geeksforgeeks.org/thread-pools-java/> geeksforgeeks </a>
 * <a href=https://coderstea.in/post/java/using-thread-pool-in-java-to-recycle-the-threads/> CodersTea </a>
